@@ -44,14 +44,4 @@ const HomePage = () => {
 
 export { HomePage };
 
-//   <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
 
-//   <Tabs.Root variant="enclosed" maxW="md" fitted defaultValue={"tab-1"}>
-//   <Tabs.List>
-//     <Tabs.Trigger value="tab-1">Tab 1</Tabs.Trigger>
-//     <Tabs.Trigger value="tab-2">Tab 2</Tabs.Trigger>
-//     <Tabs.Trigger value="tab-3">Tab 3</Tabs.Trigger>
-//   </Tabs.List>
-// </Tabs.Root>
-
-//   </Box>
