@@ -1,14 +1,14 @@
 
 const dotenv = require("dotenv");
 const express = require("express");
-const chats =require("./data/data");
 const connectDB  = require("./config/connection");
-const color = require("color")
+const userRoutes = require("./routes/userRoutes")
+dotenv.config()
+
 
 
 const app = express();
 // const PORT = 8000
-dotenv.config()
  
 // constance values 
 const PORT = process.env.PORT || 8000 
@@ -21,15 +21,12 @@ app.get("/", (req,res)=>{
     res.send("Api is running");
 })
 
-// chats API
-app.get("/api/chats",(req,res)=>{
-    res.send(chats)
-})
+// middelware 
+app.use("/api/user",userRoutes)
 
-app.get("/api/chats/:id",(req,res)=>{   
-    const singleChat  = chats.chats.find((c)=> c._id === req.params.id);
-    res.json(singleChat)
-})
+
+
+
 
 app.listen(PORT,()=>{
    console.log(`app is running on port no.  + ${PORT}`)
