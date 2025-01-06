@@ -22,8 +22,9 @@ const HomePage = () => {
           </Text>
         </Box>
 
-        <Tabs.Root defaultValue="login" variant="plain">
-          <Tabs.List bg="bg.muted" rounded="l3" p="1">
+        <Tabs.Root defaultValue="login" variant="plain" 
+           >
+          <Tabs.List bg="bg.muted" rounded="l3" p="1" className="justify-center" >
             <Tabs.Trigger value="login">
               <FaUserAlt />
               Login
