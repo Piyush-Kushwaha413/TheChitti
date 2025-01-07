@@ -53,7 +53,7 @@ const authUser = asyncHandler(async(req,res)=>{
 
   const userExists =  await User.findOne({email})
   if (userExists) {
-    
+    user
 
     
   }
