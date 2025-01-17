@@ -4,6 +4,7 @@ const express = require("express");
 const connectDB  = require("./config/connection");
 const userRoutes = require("./routes/userRoutes")
 const generateToken = require('./config/jwtoken')
+const {notFound, errorHandler} = require('./middleware/errorMiddleware')
 dotenv.config()
 
 
@@ -31,6 +32,8 @@ app.get("/", (req,res)=>{
 
 // middelware 
 app.use("/api/user",userRoutes)
+app.use(notFound)
+app.use(errorHandler)
 
 
 

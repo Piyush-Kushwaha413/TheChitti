@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { Box, Button, Input, Stack } from "@chakra-ui/react";
 import { Field } from "../ui/field";
 import { PasswordInput } from "../ui/password-input";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 
 const Singup = () => {
-
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [pic, setPic] = useState();
+  const [loading, setLoadig] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -19,9 +20,46 @@ const Singup = () => {
 
   // onSubmit do this
   const onSubmit = handleSubmit((data) => {
-    setName(data.firstName);
-    setEmail(data.email);
-    console.log(data);
+    // singup start
+    
+    setLoadig(true);
+
+    if (data.pic[0]) {
+      const formData = new FormData();
+      const url = "https://api.cloudinary.com/v1_1/chatappenv/image/upload";
+      formData.append("file", data.pic[0]);
+      formData.append("upload_preset", "chatapp");
+      formData.append("cloud_name", "chatappenv");
+
+      try {
+        fetch(url, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setPic(data.url);
+            setName(data.name);
+            setEmail(data.email);
+            setPassword(data.password);
+            setLoadig(false);
+          });
+      } catch (error) {
+        console.log(error);
+        setLoadig(false);
+      }
+
+      setLoadig(false);
+    } else {
+      console.error("set a  pic");
+    }
+
+
+
+
+
   });
 
   return (
@@ -89,11 +127,22 @@ const Singup = () => {
             <Input
               type="file"
               accept="image"
+              onChange={(e) => {
+                console.log(e);
+              }}
               {...register("pic", { required: "ProfileImg is required" })}
             />
           </Field>
 
-          <Button bg="blue.600" _hover={{ bg: "blue.700" }} className='child' width="100%" type="submit">Singup</Button>
+          <Button
+            bg="blue.600"
+            _hover={{ bg: "blue.700" }}
+            className="child"
+            width="100%"
+            type="submit"
+          >
+            Singup
+          </Button>
         </Stack>
       </form>
     </Box>

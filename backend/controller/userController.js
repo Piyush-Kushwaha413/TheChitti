@@ -7,7 +7,7 @@ const genrerateToken = require("../config/jwtoken.js")
 // function to singup
 const registerUser = asyncHandler(async (req, res) => {
   // genrerateToken(user._id)
-  const { name, email, password, pic } = req.body;
+  const { name, email, password, pic, isAdmin } = req.body;
 
   // if have the data or not
   if (!name || !email || !password) {
@@ -18,8 +18,15 @@ const registerUser = asyncHandler(async (req, res) => {
   // check user is exist or not
   const userExists = await User.findOne({ email });
   if (userExists) {
-    console.log(userExists);
-    res.status(400).json(userExists)
+    res.status(400).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      pic: user.pic,
+      token: genrerateToken(user._id),
+      
+
+    })
     throw new Error("user Already Exist");
   }
 
@@ -29,6 +36,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     pic,
+    isAdmin
   })
 
    if (user) {
@@ -39,7 +47,9 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       pic: user.pic,
-      token: genrerateToken(user._id)
+      token: genrerateToken(user._id),
+      
+
     })
   }else{
         res.status(400);
@@ -52,11 +62,20 @@ const authUser = asyncHandler(async(req,res)=>{
   const { email, password } = req.body;
 
   const userExists =  await User.findOne({email})
-  if (userExists) {
-    user
+  if (userExists && (await userExists.matchPassword(password))) {
+    res.status(201).json({
+      _id:userExists._id,
+      name: userExists.name,
+      email: userExists.email,
+      pic: userExists.pic,
+    })
 
+    
+  }else{
+    res.status(401)
+    throw new Error("user not exist : register first ");
     
   }
 })
 
-module.exports =  {registerUser}
+module.exports =  {registerUser, authUser}
