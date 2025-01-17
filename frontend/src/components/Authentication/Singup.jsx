@@ -3,6 +3,10 @@ import { Box, Button, Input, Stack } from "@chakra-ui/react";
 import { Field } from "../ui/field";
 import { PasswordInput } from "../ui/password-input";
 import { set, useForm } from "react-hook-form";
+import { toaster } from "../ui/"
+
+
+
 
 const Singup = () => {
   const [name, setName] = useState();
@@ -19,20 +23,22 @@ const Singup = () => {
   } = useForm();
 
   // onSubmit do this
-  const onSubmit = handleSubmit((data) => {
-    // singup start
-    
+  const onSubmit =  handleSubmit(async (data) => {
+
     setLoadig(true);
 
-    if (data.pic[0]) {
+    // set pic on cloud || get a url
+
+    try {
+      if (data.pic[0]) {
       const formData = new FormData();
       const url = "https://api.cloudinary.com/v1_1/chatappenv/image/upload";
       formData.append("file", data.pic[0]);
       formData.append("upload_preset", "chatapp");
       formData.append("cloud_name", "chatappenv");
 
-      try {
-        fetch(url, {
+    try {
+      await fetch(url, {
           method: "POST",
           body: formData,
         })
@@ -45,20 +51,42 @@ const Singup = () => {
             setEmail(data.email);
             setPassword(data.password);
             setLoadig(false);
+
+            toaster.success({
+              title: "Update successful",
+              description: "File saved successfully to the server",
+              action: {
+                label: "Undo",
+                onClick: () => console.log("Undo"),
+              }})
+
+            
           });
       } catch (error) {
         console.log(error);
         setLoadig(false);
       }
-
       setLoadig(false);
     } else {
       console.error("set a  pic");
     }
+    } catch (error) {
+      console.log(error);
+    }
 
+    // send data to backend
+try {
+  
+    if (data) {
+      // match passwords is same or not
+      // 
 
-
-
+      console.log(data);
+      
+    }
+} catch (error) {
+  
+}
 
   });
 
