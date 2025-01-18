@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, Input, Stack } from "@chakra-ui/react";
+import { Box, Button, Input, Stack,} from "@chakra-ui/react";
 import { Field } from "../ui/field";
 import { PasswordInput } from "../ui/password-input";
 import { set, useForm } from "react-hook-form";
-import { toaster } from "../ui/"
+import { useToast }from "@chakra-ui/toast"
 
 
 
@@ -15,6 +15,8 @@ const Singup = () => {
   const [confirmPassword, setConfirmPassword] = useState();
   const [pic, setPic] = useState();
   const [loading, setLoadig] = useState(false);
+
+  const toast = useToast()
 
   const {
     register,
@@ -51,15 +53,8 @@ const Singup = () => {
             setEmail(data.email);
             setPassword(data.password);
             setLoadig(false);
-
-            toaster.success({
-              title: "Update successful",
-              description: "File saved successfully to the server",
-              action: {
-                label: "Undo",
-                onClick: () => console.log("Undo"),
-              }})
-
+            
+            console.log(data.url);
             
           });
       } catch (error) {
@@ -71,7 +66,8 @@ const Singup = () => {
       console.error("set a  pic");
     }
     } catch (error) {
-      console.log(error);
+      console.log(error)
+  
     }
 
     // send data to backend
@@ -79,7 +75,7 @@ try {
   
     if (data) {
       // match passwords is same or not
-      // 
+      console.log("line no.84");
 
       console.log(data);
       
@@ -91,6 +87,7 @@ try {
   });
 
   return (
+  
     <Box
       bg="white"
       w="100%"
@@ -173,7 +170,7 @@ try {
           </Button>
         </Stack>
       </form>
-    </Box>
+    </Box> 
   );
 };
 
