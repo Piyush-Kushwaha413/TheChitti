@@ -7,9 +7,9 @@ const genrerateToken = require("../config/jwtoken.js")
 // function to singup
 const registerUser = asyncHandler(async (req, res) => {
   // genrerateToken(user._id)
-  const { name, email, password, pic, isAdmin } = req.body;
+  const { name, email, password, pic , isAdmin } = req.body;
 
-  // if have the data or not
+  // if have the data or not 
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("ples fill all the filds");
@@ -18,14 +18,11 @@ const registerUser = asyncHandler(async (req, res) => {
   // check user is exist or not
   const userExists = await User.findOne({ email });
   if (userExists) {
-    res.status(400).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      pic: user.pic,
-      token: genrerateToken(user._id),
-      
-
+    res.status(201).json({
+      _id: userExists._id,
+      name: userExists.name,
+      email: userExists.email,
+      token: genrerateToken(userExists._id),
     })
     throw new Error("user Already Exist");
   }
@@ -37,6 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     pic,
     isAdmin
+    
   })
 
    if (user) {
@@ -46,7 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      pic: user.pic,
+
       token: genrerateToken(user._id),
       
 

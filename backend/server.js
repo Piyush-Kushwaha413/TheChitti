@@ -2,21 +2,25 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const connectDB  = require("./config/connection");
-const userRoutes = require("./routes/userRoutes")
-const generateToken = require('./config/jwtoken')
+const userRoutes = require("./routes/userRoutes");
+const generateToken = require('./config/jwtoken');
+const cors = require("cors");
 const {notFound, errorHandler} = require('./middleware/errorMiddleware')
 dotenv.config()
 
 
 
-
-
-
 // middelwares
 const app = express();
+app.use(cors({
+    origin: 'http://localhost:5173',
+}))
 
 
-app.use(express.json())
+app.use(express.json());
+app.use(express.urlencoded({
+    extended:true
+}))
 
 // constance values 
 // const PORT = 8000 
