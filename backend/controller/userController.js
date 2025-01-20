@@ -56,8 +56,14 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 
+// function to login
 const authUser = asyncHandler(async(req,res)=>{
+  console.log("authUser run ");
+  console.log(req.body
+    );
   const { email, password } = req.body;
+
+
 
   const userExists =  await User.findOne({email})
   if (userExists && (await userExists.matchPassword(password))) {
@@ -71,9 +77,25 @@ const authUser = asyncHandler(async(req,res)=>{
     
   }else{
     res.status(401)
+    console.log("user not exist");
     throw new Error("user not exist : register first ");
     
   }
 })
 
-module.exports =  {registerUser, authUser}
+const allUsers = async (req, res)=>{
+  // /api/user?search=name
+  console.log(req.query.search);
+  const keyword = req.query.search 
+  // ?{
+  //   $or:[
+  //     {name:{$regex :req.query.search,$option :"i" }},
+  //     {email:{$regex :req.query.search, $option:'i'}}
+  //   ]
+  // }:{}
+  const users = keyword ? (await User.find({})) :{}
+  res.send(users)
+    console.log(users);
+
+} 
+module.exports =  {registerUser, authUser, allUsers}

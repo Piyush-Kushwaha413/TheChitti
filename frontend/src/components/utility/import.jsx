@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ChatPage } from "../../Pages/chatPage";
 import { HomePage } from "../../Pages/homePage";
 import { MainHeader } from "../../Pages/mainPage";
@@ -6,6 +7,9 @@ import { Singup } from "../Authentication/Singup";
 
 
 
+ const instance = axios.create({
+    baseURL: 'http://localhost:8080',
+  });
 
 
 
@@ -15,6 +19,7 @@ export {
     HomePage,
     MainHeader,
     Login,
-    Singup 
+    Singup,
+    instance
 
 }

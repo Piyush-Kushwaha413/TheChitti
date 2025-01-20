@@ -110,7 +110,6 @@ const Singup = () => {
           },
         };
   
-        console.log(name,password,email, " line: 100");
         let {data} = await axios.post("http://localhost:8080/api/user",{name,email,password,pic},config);
         console.log(data, "line node. 103  ");
         localStorage.setItem("userInfo",JSON.stringify(data));
