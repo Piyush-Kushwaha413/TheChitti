@@ -83,19 +83,23 @@ const authUser = asyncHandler(async(req,res)=>{
   }
 })
 
-const allUsers = async (req, res)=>{
+const allUsers = asyncHandler(async (req, res)=>{
   // /api/user?search=name
   console.log(req.query.search);
-  const keyword = req.query.search 
-  // ?{
-  //   $or:[
-  //     {name:{$regex :req.query.search,$option :"i" }},
-  //     {email:{$regex :req.query.search, $option:'i'}}
-  //   ]
-  // }:{}
-  const users = keyword ? (await User.find({})) :{}
-  res.send(users)
-    console.log(users);
 
-} 
+  try {
+    const keyword = req.query.search ? {
+      $or: [
+        { name: { $regex: req.query.search, $options: 'i' } },
+        // { email: { $regex: req.query.search, $options: 'i' } }
+      ]
+    } : {};
+    const users = keyword ? (await User.find(keyword)) :{}
+    res.send(users)
+    console.log(users);
+  } catch (error) {
+    res.send("not found any user this is credencital")
+    console.log("not found user");
+  }
+} )
 module.exports =  {registerUser, authUser, allUsers}
