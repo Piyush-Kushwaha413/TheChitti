@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const connectDB  = require("./config/connection");
 const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require("./routes/chatRoutes")
 const generateToken = require('./config/jwtoken');
 const cors = require("cors");
 const {notFound, errorHandler} = require('./middleware/errorMiddleware')
@@ -36,6 +37,7 @@ app.get("/", (req,res)=>{
 
 // middelware 
 app.use("/api/user",userRoutes)
+app.use("/api/chat",chatRoutes)
 app.use(notFound)
 app.use(errorHandler)
 

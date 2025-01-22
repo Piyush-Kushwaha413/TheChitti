@@ -5,20 +5,22 @@ const jwt  = require('jsonwebtoken')
 
 
 const authMiddleware = async(req,res,next)=>{
+    console.log("authMeddleware run ");
 let token ;
 //  req.headers.authorization
 if ( req.headers.authorization && 
     req.headers.authorization.startsWith("Bearer")) {
-        console.log(req.headers.authorization, "token");
         try {
             // if header have token , verify the the user
             let token ;
 
             token = req.headers.authorization.split(" ")[1]
-            console.log(token);
+            
+            // bug get wrong id
             const decode = jwt.verify(token , process.env.JWT_SECRET);
             req.user = await User.findById(decode.id).select("-password");
-            
+            console.log(req.user);
+            console.log(req.user._id);
             next()
         } catch (error) {
             res.status(401).send("user is not authorizes, user not find")

@@ -83,6 +83,7 @@ const authUser = asyncHandler(async(req,res)=>{
   }
 })
 
+// search for all users list with name ,email
 const allUsers = asyncHandler(async (req, res)=>{
   // /api/user?search=name
   console.log(req.query.search);
